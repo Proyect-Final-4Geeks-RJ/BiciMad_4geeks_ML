@@ -14,6 +14,10 @@ https://datos.gob.es/es/documentacion/analisis-de-redes-sobre-viajes-en-bicimad
 
 https://opendata.emtmadrid.es/Documentos/Servicios-y-estructuras-Bicimad-V1-1.aspx
 
+Fuente de datos
+
+https://opendata.emtmadrid.es/Datos-estaticos/Datos-generales-(1)
+
 EMT Developer portal
 
 https://mobilitylabs.emtmadrid.es/
