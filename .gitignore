@@ -1,3 +1,6 @@
 __pycache__
 .env
 .learn
+# Ignore files .json y .csv
+*.json
+*.csv
