@@ -27,3 +27,8 @@ Api
 https://apidocs.emtmadrid.es/
 
 https://git-lfs.com/
+
+SQLITE 3 
+
+https://www.sqlitetutorial.net/download-install-sqlite/
+
