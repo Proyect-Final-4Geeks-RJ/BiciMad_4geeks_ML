@@ -1,0 +1,12 @@
+ConsultaBicicletas/
+└── src/
+    ├── app.py
+    ├── templates/
+    │   ├── index.html
+    │   ├── resultados.html
+    │   └── resultados_estacion_mas_cercana.html
+    └── static/
+        ├── styles.css
+        └── main.js
+
+plicación Flask desde el directorio "src" ejecutando python app.py en la línea de comandos. La aplicación estará disponible en http://127.0.0.1:5000/ en navegador.
