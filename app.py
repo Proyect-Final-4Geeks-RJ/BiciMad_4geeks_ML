@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit_extras.app_logo import add_logo
 from PIL import Image
 import base64
+from colorama import init, Fore, Back, Style
 
 # add kitten logo
 icon = Image.open('/workspaces/BiciMad_4geeks_ML/data/graficos/images/logo_bicimad.png') 
@@ -53,8 +54,8 @@ with col1:
 st.sidebar.image('/workspaces/BiciMad_4geeks_ML/data/graficos/images/Logo_Bicimad_-_EMT.png')
 st.sidebar.header("Caso BiciMad, evolución del negocio | By *Rubén Carrasco* & *Juan Lizondo*")
 with st.sidebar:
-        st.markdown('''***Este es un proyecto hecho para mejorar la usabilidad del usuario 
-                    y para estimar mejoras de negocio en base al *ROI* del Ayuntamiento de Madrid***''')            
+        st.markdown('''***Es un proyecto para mejorar la usabilidad del usuario de BiciMad y cómo de ésta manera
+                    pueden mejorar los datos de negocio sus gestores***''')            
         if st.button('Acerca del modelo de Machine Learning'):
              if st.expander('Explicación'):
                      st.write('''*Despues de analizar el problema comercial y estipular que éste sería una 
@@ -73,6 +74,7 @@ with col1:
     # Crear un generador para las claves de los botones
     widget_id = (id for id in range(1,  10000))
 
+
 # Diccionario con descripciones para cada opción
     descripciones = {
     'Minutos de viaje al mes': '''Este detalle muestra la suma de los tiempos medios 
@@ -90,10 +92,36 @@ with col1:
 
 # Crear el selectbox
     prediccion = st.selectbox('Selecciona una predicción:',list(descripciones.keys()))
-# Mostrar la descripción correspondiente a la opción seleccionada
+
     with st.expander("Descripción"):
-        st.markdown(descripciones[prediccion], unsafe_allow_html=True)
-           
+            st.markdown(f"""
+            <div style="
+                background-color: #DCDFDF;
+            ">
+                {descripciones[prediccion]}
+            </div>
+            """, unsafe_allow_html=True)
+            
+    # Función para calcular el ROI
+    with st.expander("ROI"):
+        def calculate_roi(initial_investment, final_value):
+            roi = ((final_value - initial_investment) / initial_investment) *  100
+            return roi
+
+        # Campo de entrada para la inversión inicial
+        initial_investment = st.number_input("Ingrese la cantidad inicial invertida: ", value=0.0, format="%f")
+
+        # Campo de entrada para el valor final de la inversión
+        final_value = st.number_input("Ingrese el valor final de la inversión: ", value=0.0, format="%f")
+
+        # Botón para realizar el cálculo del ROI
+        if st.button("Calcular ROI"):
+            if initial_investment !=  0:  # Evita dividir por cero
+                roi = calculate_roi(initial_investment, final_value)
+                st.write(f"El Retorno de la Inversión (ROI) es: {roi:.2f}%")
+            else:
+                st.error("La inversión inicial no puede ser cero.")
+          
 # '''        ROI = {
 #     'Minutos de viaje al mes': '''Este detalle muestra la suma de los tiempos medios 
 #       de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
