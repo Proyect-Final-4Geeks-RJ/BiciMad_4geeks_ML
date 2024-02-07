@@ -3,6 +3,10 @@ from streamlit_extras.app_logo import add_logo
 from PIL import Image
 import base64
 from colorama import init, Fore, Back, Style
+import webbrowser
+import requests
+import folium
+
 
 # add kitten logo
 icon = Image.open('/workspaces/BiciMad_4geeks_ML/data/graficos/images/logo_bicimad.png') 
@@ -36,93 +40,242 @@ set_background('/workspaces/BiciMad_4geeks_ML/data/graficos/images/fondo_compo_b
 # Define un ID único para la columna que contiene los botones
 column_id = "mi_columna_con_botones"
 
-# Crea una columna con el ID definido
-col1, _ = st.columns([1,  1])
-with col1:
-    st.markdown(
-        f"""
-        <style>
-        #{column_id} button {{
-            font-size:  2px;
-            color-font: #BC3020;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+# Página Principal
+def page_home():
+# Dividir la pantalla en dos columnas
+    col1, col2 = st.columns([2,  2])
+    with col1:
+        # Crear un generador para las claves de los botones
+        widget_id = (id for id in range(1,  10000))
+
+
+    # Diccionario con descripciones para cada opción
+        descripciones = {
+        'Minutos de viaje al mes': '''Este detalle muestra la suma de los tiempos medios 
+        de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
+        y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
+            a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
+            los *input data* redimensionados.''',
+        'Distancia recorrida al mes': '''Este detalle muestra la suma de las distancias medias 
+        de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
+        y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
+            a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
+            los *input data* redimensionados''',
+        'Bicicletas usadas cada mes': 'Descripción de Bicicletas usadas cada mes.'
+        }
+
+    # Crear el selectbox
+        prediccion = st.selectbox('PREDICCIONES DE MACHINE LEARNING:',list(descripciones.keys()))
+
+        with st.expander("Descripción"):
+                st.markdown(f"""
+                <div style="
+                    background-color: #DCDFDF;
+                ">
+                    {descripciones[prediccion]}
+                </div>
+                """, unsafe_allow_html=True)
+                
+            # # Función para calcular el ROI
+            # with st.expander("ROI"):
+            #     def calculate_roi(initial_investment, final_value):
+            #         roi = ((final_value - initial_investment) / initial_investment) *  100
+            #         return roi
+
+            #     # Campo de entrada para la inversión inicial
+            #     initial_investment = st.number_input("Ingrese la cantidad inicial invertida: ", value=0.0, format="%f")
+
+            #     # Campo de entrada para el valor final de la inversión
+            #     final_value = st.number_input("Ingrese el valor final de la inversión: ", value=0.0, format="%f")
+
+            #     # Botón para realizar el cálculo del ROI
+            #     if st.button("Calcular ROI"):
+            #         if initial_investment !=  0:  # Evita dividir por cero
+            #             roi = calculate_roi(initial_investment, final_value)
+            #             st.write(f"El Retorno de la Inversión (ROI) es: {roi:.2f}%")
+            #         else:
+            #             st.error("La inversión inicial no puede ser cero.")
+
+        # Agrupar los botones en un contenedor
+        with st.container():
+            # Dividir el contenedor en tres columnas para los botones
+            row1_col1, row1_col2, row1_col3 = st.columns(3)  
+            # Mostrar los botones solo si la opción correspondiente está seleccionada
+            if prediccion == 'Minutos de viaje al mes':
+                if row1_col1.button('Predicción 3 meses', key=column_id):
+                    st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes3.png", 
+                            caption='Predicción con valores relativos por límite computacional')
+                if row1_col2.button('Predicción 6 meses', key=column_id + '-btn2'):
+                    st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes6.png", 
+                            caption='Predicción con valores relativos por límite computacional')
+                if row1_col3.button('Predicción de 1 año', key=column_id + '-btn3'):
+                    st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes12.png", 
+                            caption='Predicción con valores relativos por límite computacional')
+            
+            elif prediccion == 'Distancia recorrida al mes':
+                if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
+                    st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance3.png", 
+                            caption='Predicción con valores relativos por límite computacional')
+                if row1_col2.button('Predicción 6 meses', key=next(widget_id)):
+                    st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance6.png", 
+                            caption='Predicción con valores relativos por límite computacional')
+                if row1_col3.button('Predicción de 1 año', key=next(widget_id)):
+                    st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance12.png", 
+                            caption='Predicción con valores relativos por límite computacional')
+            
+            elif prediccion == 'Bicicletas usadas cada mes':
+                if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
+                    st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes3.png", 
+                            caption='Predicción con valores absolutos sin límite computacional')
+                if row1_col2.button('Predicción 6 meses', key=next(widget_id)):
+                    st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes6.png", 
+                            caption='Predicción con valores absolutos sin límite computacional')
+                if row1_col3.button('Predicción de 1 año', key=next(widget_id)):
+                    st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes12.png", 
+                            caption='Predicción con valores absolutos sin límite computacional')
+                    
+    with col2:
+# Constantes    
+        base_url = "https://api.bicimad.com"
+
+        # Función para iniciar sesión
+        def iniciar_sesion(email, password):
+            url = f"{base_url}/auth/login"
+            data = {"email": email, "password": password}
+
+            try:
+                response = requests.post(url, json=data)
+                response.raise_for_status()  # Lanza una excepción para códigos de estado de error
+
+                # Capturar y devolver el token de acceso
+                token = response.json().get("accessToken", None)
+                return token
+            except requests.exceptions.RequestException as e:
+                print("Error en la solicitud de inicio de sesión:", str(e))
+                return None
+
+        # Función para obtener el estado de una estación BiciMAD por ID o nombre
+        def obtener_estado_estacion_bicimad_por_id_o_nombre(access_token, id_o_nombre):
+            url = f"{base_url}/transport/bicimad/stations/"
+            headers = {"accessToken": access_token}
+
+            try:
+                response = requests.get(url, headers=headers)
+                response.raise_for_status()  # Lanza una excepción para códigos de estado de error
+
+                # Verificar si la solicitud fue exitosa (código de estado 200)
+                if response.status_code == 200:
+                    # Capturar y devolver la lista de estaciones
+                    lista_estaciones = response.json().get("data", [])
+
+                    # Si se proporciona un ID válido, buscar la estación por ID
+                    if id_o_nombre.isdigit():
+                        estacion_por_id = [estacion for estacion in lista_estaciones if estacion.get('id') == int(id_o_nombre)]
+                        return estacion_por_id
+                    # Si se proporciona un nombre, buscar estaciones que coincidan parcialmente con el nombre
+                    else:
+                        estaciones_coincidentes = [estacion for estacion in lista_estaciones if id_o_nombre.lower() in estacion.get('name', '').lower()]
+                        return estaciones_coincidentes
+                else:
+                    # Imprimir el código de estado y la respuesta en caso de error
+                    print("Error en la solicitud de lista de estaciones BiciMAD:")
+                    print("Código de estado:", response.status_code)
+                    print("Respuesta:", response.json())
+                    return None
+            except requests.exceptions.RequestException as e:
+                print("Error en la solicitud de lista de estaciones BiciMAD:", str(e))
+                return None
+
+        # Página principal de la aplicación Streamlit
+        st.markdown("MEJORA USABILIDAD USUARIO BiciMad")
+
+        # Solicitar al usuario que ingrese el ID o nombre de la estación
+        id_o_nombre_estacion = st.text_input("Ingrese el ID o parte del nombre de la estación BiciMAD: ")
+
+        # Continuar solo si se ingresó un ID o nombre válido
+        if id_o_nombre_estacion:
+            # Credenciales de inicio de sesión
+            email = "ruben.c_ac@icloud.com"
+            password = "Prada2024!"
+            # Iniciar sesión y obtener el token
+            token = iniciar_sesion(email, password)
+
+            # Continuar solo si se obtuvo el token con éxito
+            if token:
+                st.write("Inicio de sesión exitoso. Token de acceso:", token)
+            # Consultar la estación BiciMAD por ID o nombre
+        estacion_resultado = obtener_estado_estacion_bicimad_por_id_o_nombre(token, id_o_nombre_estacion)
+
+            # Mostrar el resultado de la consulta
+        if estacion_resultado:
+            st.write("Estación(es) encontrada(s):")
+            for estacion in estacion_resultado:
+                st.write(f"ID: {estacion.get('id')} - Nombre: {estacion.get('name')} - Bicicletas disponibles: {estacion.get('bikesAvailable')} - Estaciones disponibles: {estacion.get('stationsAvailable')}")
+        else:
+            st.write("No se encontraron estaciones con el criterio proporcionado.")
+# Información Adicional
+def page_info():
+    st.title("BiciMad - Conoce más sobre el proyecto")
+    st.write("Aquí encontrará más detalles sobre el proyecto.")
+
+# Selección de la página a mostrar
+pages = {
+    "Inicio": page_home,
+    "Información": page_info,
+}
 
 st.sidebar.image('/workspaces/BiciMad_4geeks_ML/data/graficos/images/Logo_Bicimad_-_EMT.png')
+st.sidebar.title("BiciMad")
+selection = st.sidebar.radio("Páginas", list(pages.keys()))
+# Llamada a la función correspondiente a la selección
+pages[selection]()
 st.sidebar.header("Caso BiciMad, evolución del negocio | By *Rubén Carrasco* & *Juan Lizondo*")
 with st.sidebar:
-        st.markdown('''***Es un proyecto para mejorar la usabilidad del usuario de BiciMad y cómo de ésta manera
-                    pueden mejorar los datos de negocio sus gestores***''')            
-        if st.button('Acerca del modelo de Machine Learning'):
-             if st.expander('Explicación'):
-                     st.write('''*Despues de analizar el problema comercial y estipular que éste sería una 
-                          cuestión de series temporales, estudiamos todas las posibilidades: ARIMA, XGBoost
-                          , SVG,... tando modelos univariantes como multivariantes. Finalmente y tras 
-                          varias métricas y evaluaciones, obtuvimos mejores resultados para una red neuronal basada en el LSTM. 
-                          Las Unidades de Memoria a Largo Plazo (LSTM, por sus siglas en inglés) son una arquitectura 
-                          de red neuronal diseñada para superar el problema de "desvanecimiento del gradiente", 
-                          que limita la capacidad para aprender dependencias a largo plazo. 
-                          Las LSTM introducen una celda de memoria que puede mantener o olvidar información a largo plazo, 
-                          y esta celda se actualiza con cada paso temporal en la secuencia.*''')
-
-# Dividir la pantalla en dos columnas
-col1, col2 = st.columns([2,  2])
-with col1:
-    # Crear un generador para las claves de los botones
-    widget_id = (id for id in range(1,  10000))
-
-
-# Diccionario con descripciones para cada opción
-    descripciones = {
-    'Minutos de viaje al mes': '''Este detalle muestra la suma de los tiempos medios 
-      de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
-      y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
-        a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
-        los *input data* redimensionados.''',
-    'Distancia recorrida al mes': '''Este detalle muestra la suma de las distancias medias 
-      de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
-      y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
-        a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
-        los *input data* redimensionados''',
-    'Bicicletas usadas cada mes': 'Descripción de Bicicletas usadas cada mes.'
-    }
-
-# Crear el selectbox
-    prediccion = st.selectbox('Selecciona una predicción:',list(descripciones.keys()))
-
-    with st.expander("Descripción"):
-            st.markdown(f"""
-            <div style="
-                background-color: #DCDFDF;
-            ">
-                {descripciones[prediccion]}
-            </div>
-            """, unsafe_allow_html=True)
+        st.button('Acerca del modelo de Machine Learning')
+        if st.expander('Explicación'):
+              st.write('''*Despues de analizar el problema comercial y estipular que éste sería una 
+             cuestión de series temporales, estudiamos todas las posibilidades: ARIMA, XGBoost
+             , SVG,... tando modelos univariantes como multivariantes. Finalmente y tras 
+              varias métricas y evaluaciones, obtuvimos mejores resultados para una red neuronal basada en el LSTM. 
+               Las Unidades de Memoria a Largo Plazo (LSTM, por sus siglas en inglés) son una arquitectura 
+               de red neuronal diseñada para superar el problema de "desvanecimiento del gradiente", 
+               que limita la capacidad para aprender dependencias a largo plazo. 
+               Las LSTM introducen una celda de memoria que puede mantener o olvidar información a largo plazo, 
+                y esta celda se actualiza con cada paso temporal en la secuencia.*''')
             
-    # Función para calcular el ROI
-    with st.expander("ROI"):
-        def calculate_roi(initial_investment, final_value):
-            roi = ((final_value - initial_investment) / initial_investment) *  100
-            return roi
+# selection = st.sidebar.radio("Ir a", list(pages.keys()))
 
-        # Campo de entrada para la inversión inicial
-        initial_investment = st.number_input("Ingrese la cantidad inicial invertida: ", value=0.0, format="%f")
+# # Llamada a la función correspondiente a la selección
+# pages[selection]()
 
-        # Campo de entrada para el valor final de la inversión
-        final_value = st.number_input("Ingrese el valor final de la inversión: ", value=0.0, format="%f")
 
-        # Botón para realizar el cálculo del ROI
-        if st.button("Calcular ROI"):
-            if initial_investment !=  0:  # Evita dividir por cero
-                roi = calculate_roi(initial_investment, final_value)
-                st.write(f"El Retorno de la Inversión (ROI) es: {roi:.2f}%")
-            else:
-                st.error("La inversión inicial no puede ser cero.")
-          
-# '''        ROI = {
+# with st.sidebar:
+#         st.markdown('''***Es un proyecto para mejorar la usabilidad del usuario de BiciMad y cómo de ésta manera
+#                     pueden mejorar los datos de negocio sus gestores***''')
+#                  # Botón para abrir la nueva página
+#         st.button('Conoce más sobre el proyecto')
+#         if st.expander('Explicación'):      
+#         st.button('Acerca del modelo de Machine Learning')
+#         if st.expander('Explicación'):
+#             st.write('''*Despues de analizar el problema comercial y estipular que éste sería una 
+#                           cuestión de series temporales, estudiamos todas las posibilidades: ARIMA, XGBoost
+#                           , SVG,... tando modelos univariantes como multivariantes. Finalmente y tras 
+#                           varias métricas y evaluaciones, obtuvimos mejores resultados para una red neuronal basada en el LSTM. 
+#                           Las Unidades de Memoria a Largo Plazo (LSTM, por sus siglas en inglés) son una arquitectura 
+#                           de red neuronal diseñada para superar el problema de "desvanecimiento del gradiente", 
+#                           que limita la capacidad para aprender dependencias a largo plazo. 
+#                           Las LSTM introducen una celda de memoria que puede mantener o olvidar información a largo plazo, 
+#                           y esta celda se actualiza con cada paso temporal en la secuencia.*''')
+
+# # Dividir la pantalla en dos columnas
+# col1, col2 = st.columns([2,  2])
+# with col1:
+#     # Crear un generador para las claves de los botones
+#     widget_id = (id for id in range(1,  10000))
+
+
+# # Diccionario con descripciones para cada opción
+#     descripciones = {
 #     'Minutos de viaje al mes': '''Este detalle muestra la suma de los tiempos medios 
 #       de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
 #       y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
@@ -136,55 +289,82 @@ with col1:
 #     'Bicicletas usadas cada mes': 'Descripción de Bicicletas usadas cada mes.'
 #     }
 
-# # Mostrar la descripción correspondiente a la opción seleccionada
-#         with st.button("ROI"):
-#             st.markdown(ROI[prediccion], unsafe_allow_html=True)
-# ''' -------> ¡¡¡ARREGLAR!!!
+# # Crear el selectbox
+#     prediccion = st.selectbox('Selecciona una predicción:',list(descripciones.keys()))
 
-    # Agrupar los botones en un contenedor
-    with st.container():
-        # Dividir el contenedor en tres columnas para los botones
-        row1_col1, row1_col2, row1_col3 = st.columns(3)  
-        # Mostrar los botones solo si la opción correspondiente está seleccionada
-        if prediccion == 'Minutos de viaje al mes':
-            if row1_col1.button('Predicción 3 meses', key=column_id):
-                st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes3.png", 
-                         caption='Predicción con valores relativos por límite computacional')
-            if row1_col2.button('Predicción 6 meses', key=column_id + '-btn2'):
-                st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes6.png", 
-                         caption='Predicción con valores relativos por límite computacional')
-            if row1_col3.button('Predicción de 1 año', key=column_id + '-btn3'):
-                st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes12.png", 
-                         caption='Predicción con valores relativos por límite computacional')
+#     with st.expander("Descripción"):
+#             st.markdown(f"""
+#             <div style="
+#                 background-color: #DCDFDF;
+#             ">
+#                 {descripciones[prediccion]}
+#             </div>
+#             """, unsafe_allow_html=True)
+            
+#         # # Función para calcular el ROI
+#         # with st.expander("ROI"):
+#         #     def calculate_roi(initial_investment, final_value):
+#         #         roi = ((final_value - initial_investment) / initial_investment) *  100
+#         #         return roi
+
+#         #     # Campo de entrada para la inversión inicial
+#         #     initial_investment = st.number_input("Ingrese la cantidad inicial invertida: ", value=0.0, format="%f")
+
+#         #     # Campo de entrada para el valor final de la inversión
+#         #     final_value = st.number_input("Ingrese el valor final de la inversión: ", value=0.0, format="%f")
+
+#         #     # Botón para realizar el cálculo del ROI
+#         #     if st.button("Calcular ROI"):
+#         #         if initial_investment !=  0:  # Evita dividir por cero
+#         #             roi = calculate_roi(initial_investment, final_value)
+#         #             st.write(f"El Retorno de la Inversión (ROI) es: {roi:.2f}%")
+#         #         else:
+#         #             st.error("La inversión inicial no puede ser cero.")
+
+#     # Agrupar los botones en un contenedor
+#     with st.container():
+#         # Dividir el contenedor en tres columnas para los botones
+#         row1_col1, row1_col2, row1_col3 = st.columns(3)  
+#         # Mostrar los botones solo si la opción correspondiente está seleccionada
+#         if prediccion == 'Minutos de viaje al mes':
+#             if row1_col1.button('Predicción 3 meses', key=column_id):
+#                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes3.png", 
+#                          caption='Predicción con valores relativos por límite computacional')
+#             if row1_col2.button('Predicción 6 meses', key=column_id + '-btn2'):
+#                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes6.png", 
+#                          caption='Predicción con valores relativos por límite computacional')
+#             if row1_col3.button('Predicción de 1 año', key=column_id + '-btn3'):
+#                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes12.png", 
+#                          caption='Predicción con valores relativos por límite computacional')
         
-        elif prediccion == 'Distancia recorrida al mes':
-            if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
-                st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance3.png", 
-                         caption='Predicción con valores relativos por límite computacional')
-            if row1_col2.button('Predicción 6 meses', key=next(widget_id)):
-                st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance6.png", 
-                         caption='Predicción con valores relativos por límite computacional')
-            if row1_col3.button('Predicción de 1 año', key=next(widget_id)):
-                st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance12.png", 
-                         caption='Predicción con valores relativos por límite computacional')
+#         elif prediccion == 'Distancia recorrida al mes':
+#             if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
+#                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance3.png", 
+#                          caption='Predicción con valores relativos por límite computacional')
+#             if row1_col2.button('Predicción 6 meses', key=next(widget_id)):
+#                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance6.png", 
+#                          caption='Predicción con valores relativos por límite computacional')
+#             if row1_col3.button('Predicción de 1 año', key=next(widget_id)):
+#                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance12.png", 
+#                          caption='Predicción con valores relativos por límite computacional')
         
-        elif prediccion == 'Bicicletas usadas cada mes':
-            if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
-                st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes3.png", 
-                         caption='Predicción con valores absolutos sin límite computacional')
-            if row1_col2.button('Predicción 6 meses', key=next(widget_id)):
-                st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes6.png", 
-                         caption='Predicción con valores absolutos sin límite computacional')
-            if row1_col3.button('Predicción de 1 año', key=next(widget_id)):
-                st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes12.png", 
-                         caption='Predicción con valores absolutos sin límite computacional')
+#         elif prediccion == 'Bicicletas usadas cada mes':
+#             if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
+#                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes3.png", 
+#                          caption='Predicción con valores absolutos sin límite computacional')
+#             if row1_col2.button('Predicción 6 meses', key=next(widget_id)):
+#                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes6.png", 
+#                          caption='Predicción con valores absolutos sin límite computacional')
+#             if row1_col3.button('Predicción de 1 año', key=next(widget_id)):
+#                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes12.png", 
+#                          caption='Predicción con valores absolutos sin límite computacional')
                 
-with col2:
-# Crear un generador para las claves de los botones
-    widget_id = (id for id in range(1,  10000))
+# with col2:
+# # Crear un generador para las claves de los botones
+#     widget_id = (id for id in range(1,  10000))
 
-    # Crear un menú desplegable con las opciones
-    prediccion = st.selectbox(
-        'Crea la experiencia:', 
-        ['Minutos de viaje al mes', 'Distancia recorrida al mes', 'Bicicletas usadas cada mes']
-    )
+#     # Crear un menú desplegable con las opciones
+#     prediccion = st.selectbox(
+#         'Crea la experiencia:', 
+#         ['Minutos de viaje al mes', 'Distancia recorrida al mes', 'Bicicletas usadas cada mes']
+#     )
