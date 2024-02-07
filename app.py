@@ -28,7 +28,7 @@ def set_background(png_file):
     ''' % bin_str
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-set_background('/workspaces/BiciMad_4geeks_ML/data/graficos/images/fondo_app.png')
+set_background('/workspaces/BiciMad_4geeks_ML/data/graficos/images/fondo_compo_b.png')
 
 # Configuraciones botones:
 # Función para cambiar el estilo del botón
@@ -50,8 +50,22 @@ with col1:
         unsafe_allow_html=True,
     )
 
-st.sidebar.image('/workspaces/BiciMad_4geeks_ML/data/graficos/images/logo_bicimad.png')
-st.sidebar.header("[**This dashboard app is created by *Rubén Carrasco* & *Juan Lizondo**]")
+st.sidebar.image('/workspaces/BiciMad_4geeks_ML/data/graficos/images/Logo_Bicimad_-_EMT.png')
+st.sidebar.header("Caso BiciMad, evolución del negocio | By *Rubén Carrasco* & *Juan Lizondo*")
+with st.sidebar:
+        st.markdown('''***Este es un proyecto hecho para mejorar la usabilidad del usuario 
+                    y para estimar mejoras de negocio en base al *ROI* del Ayuntamiento de Madrid***''')            
+        if st.button('Acerca del modelo de Machine Learning'):
+             if st.expander('Explicación'):
+                     st.write('''*Despues de analizar el problema comercial y estipular que éste sería una 
+                          cuestión de series temporales, estudiamos todas las posibilidades: ARIMA, XGBoost
+                          , SVG,... tando modelos univariantes como multivariantes. Finalmente y tras 
+                          varias métricas y evaluaciones, obtuvimos mejores resultados para una red neuronal basada en el LSTM. 
+                          Las Unidades de Memoria a Largo Plazo (LSTM, por sus siglas en inglés) son una arquitectura 
+                          de red neuronal diseñada para superar el problema de "desvanecimiento del gradiente", 
+                          que limita la capacidad para aprender dependencias a largo plazo. 
+                          Las LSTM introducen una celda de memoria que puede mantener o olvidar información a largo plazo, 
+                          y esta celda se actualiza con cada paso temporal en la secuencia.*''')
 
 # Dividir la pantalla en dos columnas
 col1, col2 = st.columns([2,  2])
@@ -59,11 +73,46 @@ with col1:
     # Crear un generador para las claves de los botones
     widget_id = (id for id in range(1,  10000))
 
-    # Crear un menú desplegable con las opciones
-    prediccion = st.selectbox(
-        'Selecciona una predicción:',  
-        ['Minutos de viaje al mes', 'Distancia recorrida al mes', 'Bicicletas usadas cada mes']
-    )  
+# Diccionario con descripciones para cada opción
+    descripciones = {
+    'Minutos de viaje al mes': '''Este detalle muestra la suma de los tiempos medios 
+      de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
+      y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
+        a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
+        los *input data* redimensionados.''',
+    'Distancia recorrida al mes': '''Este detalle muestra la suma de las distancias medias 
+      de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
+      y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
+        a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
+        los *input data* redimensionados''',
+    'Bicicletas usadas cada mes': 'Descripción de Bicicletas usadas cada mes.'
+    }
+
+# Crear el selectbox
+    prediccion = st.selectbox('Selecciona una predicción:',list(descripciones.keys()))
+# Mostrar la descripción correspondiente a la opción seleccionada
+    with st.expander("Descripción"):
+        st.markdown(descripciones[prediccion], unsafe_allow_html=True)
+           
+# '''        ROI = {
+#     'Minutos de viaje al mes': '''Este detalle muestra la suma de los tiempos medios 
+#       de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
+#       y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
+#         a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
+#         los *input data* redimensionados.''',
+#     'Distancia recorrida al mes': '''Este detalle muestra la suma de las distancias medias 
+#       de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
+#       y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
+#         a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
+#         los *input data* redimensionados''',
+#     'Bicicletas usadas cada mes': 'Descripción de Bicicletas usadas cada mes.'
+#     }
+
+# # Mostrar la descripción correspondiente a la opción seleccionada
+#         with st.button("ROI"):
+#             st.markdown(ROI[prediccion], unsafe_allow_html=True)
+# ''' -------> ¡¡¡ARREGLAR!!!
+
     # Agrupar los botones en un contenedor
     with st.container():
         # Dividir el contenedor en tres columnas para los botones
@@ -101,7 +150,7 @@ with col1:
             if row1_col3.button('Predicción de 1 año', key=next(widget_id)):
                 st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes12.png", 
                          caption='Predicción con valores absolutos sin límite computacional')
-
+                
 with col2:
 # Crear un generador para las claves de los botones
     widget_id = (id for id in range(1,  10000))

@@ -2,6 +2,6 @@
 base = "dark"
 primaryColor = "#3D3C3C"
 backgroundColor = "#DCDFDF"
-secondaryBackgroundColor = "#7DD7EF"
+secondaryBackgroundColor = "#9bb38a"
 textColor = "#434348"
-font = "serif"
+font = "monospace"
