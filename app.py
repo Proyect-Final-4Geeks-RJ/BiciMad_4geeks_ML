@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import io
 import base64
 from colorama import init, Fore, Back, Style
 import webbrowser
@@ -73,11 +74,13 @@ def page_home():
                         if st.button('Decripción del caso', on_click=change_prediction, args=['Decripción del caso']):
                     # Este código se ejecutará cuando se haga clic en el botón
                             pass
-                            return st.write('''Este detalle muestra la suma de los tiempos medios de los recorridos en :bike:
-                                            de los usuarios por mes. La ***inversión*** de flota de bicicletas y de estaciones 
-                                            han sido implementadas en nuestro modelo para adecuar la prediccióna la situación 
-                                            actual de 2024. Vemos como la curva se hace estacionaria en los mismos meses pero
-                                            cómo el tiempo mensual ha crecido exponencialmente.''')
+                            return st.write(f'''
+                                            Este detalle muestra la suma de los tiempos medios de los recorridos en :bike: 🚴‍♂️
+                                            de los usuarios por mes. La **inversión** en flota de bicicletas y de estaciones 🏞️
+                                            han sido implementadas en nuestro modelo para adecuar la predicción al estado actual de  2024. 📅
+                                            Vemos cómo la curva se hace estacionaria en los mismos meses pero 🌈
+                                            cómo el tiempo mensual ha crecido exponencialmente. 📈
+                                            ''')
                         if row1_col1.button('Predicción 3 meses', key=column_id):
                             minutes3 = Image.open(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\minutes3.png")
                             st.image(minutes3, 'Predicción con valores relativos por límite computacional')
@@ -94,11 +97,12 @@ def page_home():
                         if st.button('Decripción del caso', on_click=change_prediction, args=['Decripción del caso']):
                     # Este código se ejecutará cuando se haga clic en el botón
                             pass
-                            return st.write('''Este detalle muestra la suma de las distancias medias de los recorridos en :bike:
-                                            de los usuarios por mes. La ***inversión*** de flota de bicicletas y de estaciones 
-                                            han sido implementadas en nuestro modelo para adecuar la predicción a la situación actual
-                                            de 2024. Al igual que en el caso de los minutos, la curva se repie creciendo en datos
-                                            pero con la distinción de incrementar las distancias entre estaciones.''')
+                            return st.write('''🚴 Este detalle muestra la suma de las distancias medias de los recorridos en bicicleta 🚴
+                                            de los usuarios por mes. La **inversión** en flota de bicicletas y estaciones 🏞️
+                                            han sido consideradas en nuestro modelo para adaptar la predicción a la situación actual 📆
+                                            de  2024. Al igual que con los minutos, la curva sube creciendo en datos ⬆️
+                                            pero con la particularidad de incrementar las distancias entre estaciones. 🔄'''
+                                            )
                         if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
                             distance3 = Image.open(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\distance3.png")
                             st.image(distance3, 'Predicción con valores relativos por límite computacional')
@@ -115,10 +119,11 @@ def page_home():
                         if st.button('Decripción del caso', on_click=change_prediction, args=['Decripción del caso']):
                     # Este código se ejecutará cuando se haga clic en el botón
                             pass
-                            return st.write('''Este detalle muestra la suma total de :bike: de los usuarios por mes. En este caso, 
-                                            hemos utilizado los datos absolutos que disponíamos y añadido la nueva flota de bicicletas
-                                            de 2023. Vemos como la predicción hace practicamente un calco de la curva de los datos 
-                                            obtenidos en 2022, siendo la predicción menos comprometida de nuestro modelo. ''')
+                            return st.write('''
+                                            :bicyclist::bicyclist: Este detalle muestra la suma total de :bike: de los usuarios por mes.  
+                                            En este caso, hemos utilizado los datos absolutos que disponíamos 📊 y añadido la nueva flota de bicicletas 🚲 de  2023.  
+                                            Vemos cómo la predicción hace prácticamente un calco de la curva de los datos obtenidos en  2022 📈, siendo la predicción menos comprometida de nuestro modelo. :mag_right:
+                                            ''')
                         if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
                             bikes3 = Image.open(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\bikes3.png")
                             st.image(bikes3, caption='Predicción con valores absolutos sin límite computacional')
@@ -147,9 +152,14 @@ def page_home():
                 if st.button('Explicación', on_click=change_prediction, args=['Decripción del caso']):
                     # Este código se ejecutará cuando se haga clic en el botón
                     pass
-                    return st.write('''Hemos trabajado en unas mejoras en la usabilidad de la aplicación
-                                        de BiciMad para el usuario, obtener una puntuación y mejorar la precisión 
-                                        la ubicación, nacen cómo propuestas a valorar para el gestor.''')
+                    return st.markdown('''
+                                        Hemos trabajado en unas mejoras en la usabilidad de la aplicación de BiciMad:
+
+                                        - Por un lado, obtener una puntuación en base al uso que haces de las bicicletas 🚴‍♂️🚲
+                                        - Por otro, mejorar la precisión de la ubicación, por proximidad a tu estación de biciMAD 📍🛡️
+
+                                        Estas ideas, nacen del estudio de los datos y de la elaboración del trabajo como propuestas a valorar para el gestor 📊💼
+                                        ''')
                 # Mostrar el botón:
                 if prediccion == 'Gamificación y usabilidad de la APP':
                      # Define a session state variable to track if the button has been clicked
@@ -331,9 +341,40 @@ pages = {
     }
 logo = Image.open(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\Logo_Bicimad_-_EMT.png')
 st.sidebar.image(logo)
-
-st.sidebar.title("Proyecto BiciMad :bike:")
-st.sidebar.header("*Rubén Carrasco *Juan Lizondo")
-selection = st.sidebar.radio("Páginas", list(pages.keys()))
+st.sidebar.header("Proyecto BiciMad :bike:")
+# st.sidebar.text("*Rubén Carrasco")
+# linkedin_icon_url = Image.open(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\linkedin.png")
+# linkedin_profile_url = "https://www.linkedin.com/in/rub%C3%A9n-carrasco-143145135/"
+# with st.sidebar:
+#         st.markdown(f"[![LinkedIn]({linkedin_icon_url})]({linkedin_profile_url})", unsafe_allow_html=True)
+def load_image(file_path):
+    with Image.open(file_path) as img:
+        buffered = io.BytesIO()
+        img.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+    return img_str
+linkedin_icon_path = r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\linkedin.png"
+linkedin_icon_base64 = load_image(linkedin_icon_path)
+linkedin_profile_url_juan = "https://www.linkedin.com/in/juanlizondo/"
+linkedin_profile_url_ruben = "https://www.linkedin.com/in/juanlizondo/"
+with st.sidebar:
+    st.markdown(
+        f"""***Rubén Carrasco*** 
+        <a href="{linkedin_profile_url_ruben}" target="_blank">
+            <img src="data:image/png;base64,{linkedin_icon_base64}" alt="LinkedIn Icon" width="15px" height="15px"/>
+        </a>
+        """,
+        unsafe_allow_html=True
+    )
+with st.sidebar:
+    st.markdown(
+        f"""***Juan Lizondo*** 
+        <a href="{linkedin_profile_url_juan}" target="_blank">
+            <img src="data:image/png;base64,{linkedin_icon_base64}" alt="LinkedIn Icon" width="15px" height="15px"/>
+        </a>
+        """,
+        unsafe_allow_html=True
+    )
+selection = st.sidebar.radio("***Páginas***", list(pages.keys()))
 # Llamada a la función correspondiente a la selección
 pages[selection]()
