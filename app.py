@@ -148,7 +148,7 @@ def page_home():
                     # Este código se ejecutará cuando se haga clic en el botón
                     pass
                     return st.write('''Hemos trabajado en unas mejoras en la usabilidad de la aplicación
-                                        de BiciMad para el usuario, obtener una puntuación y meorar la preción 
+                                        de BiciMad para el usuario, obtener una puntuación y mejorar la precisión 
                                         la ubicación, nacen cómo propuestas a valorar para el gestor.''')
                 # Mostrar el botón:
                 if prediccion == 'Gamificación y usabilidad de la APP':
@@ -303,8 +303,8 @@ def page_home():
 
 # Información Adicional
 def page_info():
-        st.title("BiciMad - Conoce más sobre el proyecto")
-        st.write("Aquí encontrará más detalles sobre el proyecto.")
+        proyecto = Image.open(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\Proyecto.png')
+        st.image(proyecto, width=800)
 
     # Selección de la página a mostrar
 pages = {
