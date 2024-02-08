@@ -151,7 +151,7 @@ def page_home():
                             ors_client = openrouteservice.Client(key='5b3ce3597851110001cf6248b1eae734bbbd486a9454e8190d51e71b')
 
                             def get_user_location():
-                                address = st.text_input("Ingrese su dirección:")
+                                address = st.text_input("¿Dónde estoy?")
                                 if address:
                                     # Geocodifica la dirección ingresada por el usuario
                                     geocode_result = ors_client.pelias_search(text=address)
@@ -161,7 +161,7 @@ def page_home():
                                     else:
                                         st.error("No se pudo geocodificar la dirección. Por favor, inténtalo de nuevo.")
                                 else:
-                                    st.warning("Por favor, ingrese una dirección.")
+                                    st.warning("Por favor, ingrese una dirección válida.")
 
                 # Ejemplo de uso en tu aplicación Streamlit
                             user_location = get_user_location()
