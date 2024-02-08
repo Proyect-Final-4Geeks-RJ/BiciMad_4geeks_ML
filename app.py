@@ -8,6 +8,7 @@ import folium
 import openrouteservice
 import pandas as pd
 from openrouteservice import Client
+from openrouteservice import directions
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
 
@@ -151,8 +152,10 @@ def page_home():
                                         la ubicación, nacen cómo propuestas a valorar para el gestor.''')
                 # Mostrar el botón:
                 if prediccion == 'Gamificación y usabilidad de la APP':
-                                # Initialize ORS client
-                   if st.button('Prueba el uso'): 
+                   def change_prediction(new_prediction):
+                            st.session_state.prediccion = new_prediction
+                   if st.button('Prueba el uso', on_click=change_prediction, args=['Decripción del caso']): 
+                        # Initialize ORS client
                     ors_client = Client(key='5b3ce3597851110001cf6248b1eae734bbbd486a9454e8190d51e71b')
                     
                     # Definimos los límites de Madrid
@@ -190,9 +193,6 @@ def page_home():
 
                         # Asegúrate de ajustar el nombre de las columnas según tus datos reales
                     station_data = [create_station_data(row) for _, row in data_series.iterrows() if create_station_data(row)]
-
-                        # Obtenemos la ubicación del usuario
-                    user_location = get_user_location()
 
                     def get_route_and_score(start_lat, start_lon, end_lat, end_lon):
                                         # Get the route using ORS
@@ -248,9 +248,9 @@ def page_home():
                         # Streamlit app
                     def main():
                         st.title("BiciMAD Route Planner")
-                        # Input fields for start and destination                   
-                                    
-                    start_address = st.text_input("¿Dónde estoy?")
+
+                        # Input fields for start and destination                  
+                    start_address = st.text_input("¿Dónde estoy?") 
                     end_address = st.text_input("¿A dónde voy?")
 
                     if start_address and end_address:
@@ -266,15 +266,16 @@ def page_home():
 
                         # Get the route and calculate score
                                 route, score = get_route_and_score(*start_coords, *end_coords)
-                                                        
+                    def change_prediction(new_prediction):
+                        st.session_state.prediccion = new_prediction                                                       
                         # Display route and score
-                    st.write(f"Ruta desde {start_address} hasta {end_address}:")
-                    st.map(route['routes'][0]['geometry']['coordinates'])
-                    st.write(f'''Tu puntuación es: ¡¡¡{score}!!!:clap::clap::clap::clap::clap:, 
-                                    esto es gracias a las calorías gastadas por la velocidad en que 
-                                    lo has hecho, y por la distancia recorriday también por tu 
-                                    contribución al ahorro de emisiones en nuestra ciudad
-                                    por usar la bicicleta :smiley: ''')
+                    st.write(f"Ruta desde {start_address} hasta {end_address}:", on_click=change_prediction, args=['Decripción del caso'])
+                    # st.map(route['routes'][0]['geometry']['coordinates'])
+                    # st.write(f'''Tu puntuación es: ¡¡¡{score}!!!:clap::clap::clap::clap::clap:, 
+                    #                 esto es gracias a las calorías gastadas por la velocidad en que 
+                    #                 lo has hecho, y por la distancia recorriday también por tu 
+                    #                 contribución al ahorro de emisiones en nuestra ciudad
+                    #                 por usar la bicicleta :smiley: ''')
 
                 else:
                     st.error("No se pudieron geocodificar las direcciones. Por favor, inténtalo de nuevo.")
