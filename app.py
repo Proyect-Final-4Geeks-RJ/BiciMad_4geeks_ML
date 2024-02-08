@@ -276,8 +276,8 @@ def page_home():
                                     contribución al ahorro de emisiones en nuestra ciudad
                                     por usar la bicicleta :smiley: ''')
 
-                        # else:
-                        # st.error("No se pudieron geocodificar las direcciones. Por favor, inténtalo de nuevo.")
+                else:
+                    st.error("No se pudieron geocodificar las direcciones. Por favor, inténtalo de nuevo.")
 
                     if __name__ == "__main__":
                         main()
