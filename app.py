@@ -318,6 +318,16 @@ def page_info():
         with st.expander('Acerca del proyecto sobre BiciMAD :bike:'):
             proyecto = Image.open(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\Proyecto.png')
             st.image(proyecto, use_column_width=True)
+        with st.expander('Conclusiones del proyecto :waving_white_flag:'):
+            st.write('''🚴‍♂️ Dada la situación actual de monopolio de BiciMad en la red de alquiler
+                      de bicicletas de la ciudad, es razonable esperar que los datos de crecimiento
+                      que hemos obtenido sean muy positivos. 📈''')
+            st.write('''🔍 El modelo respalda esta tendencia empresarial y puede garantizar que, sin
+                      tener en cuenta solo ganancias y sin conocer los costos de implementación, 
+                     cualquier mejora que pueda aportar este servicio resultará en un crecimiento 
+                     exponencial de los datos. 🚀''')
+
+           
     with col2:
         with st.expander('Acerca del modelo de Machine Learning :bookmark_tabs:'):
             st.write('''*Después de analizar el problema comercial 🧩 y estipular que 
@@ -333,6 +343,26 @@ def page_info():
                      memoria que puede mantener u olvidar información a largo plazo, y ésta 
                      celda se actualiza con cada paso temporal en la secuencia. Nuestros 
                      resultados mejoraron significativamente gracias a esta implementación 📈.*''')
+        with st.expander('Limitaciones y procesos de mejora :point_up_2:'):
+            st.write("""*Uno de los mayores inconvenientes con el procesamiento de los datos,  
+            ha sido la imposibilidad de poder limpiar y mergear datos relativos a la  
+            información de las estaciones, por lo que hemos podido averiguar, han limitado
+            la información que sí ofrecían años atrás.* ⚠️""")
+
+            st.write("""Otro de los problemas más importantes es que los datos referidos a todo el año
+            2022, suponían una carga de casi  4 millones y medio de filas, lo que ha conllevado
+            en nuestra limitación computacional, a tener que seleccionar una muestra más pequeña
+            de nuestro conjunto*.* 📊""")
+
+            st.write("""***Este proyecto tiene mucho margen de mejora si solventamos, con tiempo, nuestras
+            limitaciones antes referidas. En una versión  2.0 del proyecto, la demanda de localización
+            de estaciones y de bicicletas supondrá una predicción muy interesante para analizar.*** 🚀""")
+
+            st.write("""Otro de los aspectos interesantes de poder predecir y analizar, son los costos operativos.
+            Si consiguieramos información adicional de la inversión de bicicletas, estaciones, personal y
+            demás indicadores económicos del negocio, podríamos retornar y aventurarnos a ofrecer visiones
+            de negocio a futuro.* 💰📈""")
+ 
 
     # Selección de la página a mostrar
 pages = {
