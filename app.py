@@ -303,8 +303,26 @@ def page_home():
 
 # Información Adicional
 def page_info():
-        proyecto = Image.open(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\Proyecto.png')
-        st.image(proyecto, width=800)
+    col1, col2 = st.columns([2,  2])
+    with col1:
+        with st.expander('Acerca del proyecto sobre BiciMAD :bike:'):
+            proyecto = Image.open(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\Proyecto.png')
+            st.image(proyecto, use_column_width=True)
+    with col2:
+        with st.expander('Acerca del modelo de Machine Learning :bookmark_tabs:'):
+            st.write('''*Después de analizar el problema comercial 🧩 y estipular que 
+                     éste sería una cuestión de series temporales, estudiamos todas las
+                      posibilidades de los modelos aprendidos:*''') 
+            st.write('''*ARIMA, XGBoost, SVG,... tanto modelos univariantes como multivariantes*.*''') 
+            st.write('''***Finalmente y tras varias métricas y evaluaciones, 
+                     obtuvimos mejores resultados para una red neuronal basada en el LSTM 🧠.***''') 
+            st.write('''*Las Unidades de Memoria a Largo Plazo (LSTM, por sus siglas en inglés) 
+                     son una arquitectura de red neuronal diseñada para superar el problema 
+                     de "desvanecimiento del gradiente" 🔄, que limita la capacidad para 
+                     aprender dependencias a largo plazo. Las LSTM introducen una celda de 
+                     memoria que puede mantener u olvidar información a largo plazo, y ésta 
+                     celda se actualiza con cada paso temporal en la secuencia. Nuestros 
+                     resultados mejoraron significativamente gracias a esta implementación 📈.*''')
 
     # Selección de la página a mostrar
 pages = {
@@ -316,19 +334,6 @@ st.sidebar.image(logo)
 
 st.sidebar.title("Proyecto BiciMad :bike:")
 st.sidebar.header("*Rubén Carrasco *Juan Lizondo")
-with st.sidebar:
-     #if st.button('Acerca del modelo de Machine Learning'):
-        with st.expander('Acerca del modelo de Machine Learning'):
-            st.write('''*Despues de analizar el problema comercial y estipular que éste sería una 
-            cuestión de series temporales, estudiamos todas las posibilidades: ARIMA, XGBoost
-            , SVG,... tando modelos univariantes como multivariantes. Finalmente y tras 
-            varias métricas y evaluaciones, obtuvimos mejores resultados para una red neuronal basada en el LSTM. 
-            Las Unidades de Memoria a Largo Plazo (LSTM, por sus siglas en inglés) son una arquitectura 
-            de red neuronal diseñada para superar el problema de "desvanecimiento del gradiente", 
-            que limita la capacidad para aprender dependencias a largo plazo. 
-            Las LSTM introducen una celda de memoria que puede mantener u olvidar información a largo plazo, 
-            y ésta celda se actualiza con cada paso temporal en la secuencia.*''')
-            
 selection = st.sidebar.radio("Páginas", list(pages.keys()))
 # Llamada a la función correspondiente a la selección
 pages[selection]()
