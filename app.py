@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_extras.app_logo import add_logo
 from PIL import Image
 import base64
 from colorama import init, Fore, Back, Style
@@ -10,7 +9,7 @@ import openrouteservice
 
 
 # add kitten logo
-icon = Image.open('/workspaces/BiciMad_4geeks_ML/data/graficos/images/logo_bicimad.png') 
+icon = Image.open(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\logo_bicimad.png') 
 
 st.set_page_config(page_title="Caso BiciMad, evolución del negocio | By Rubén Carrasco & Juan Lizondo",
                    page_icon=icon,
@@ -34,7 +33,7 @@ def set_background(png_file):
     ''' % bin_str
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-set_background('/workspaces/BiciMad_4geeks_ML/data/graficos/images/fondo_compo_b.png')
+set_background(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\fondo_compo_b.png')
 
 # Configuraciones botones:
 # Función para cambiar el estilo del botón
@@ -52,17 +51,9 @@ def page_home():
 
         # Diccionario con descripciones para cada opción
             descripciones = {
-            'Minutos de viaje al mes': '''Este detalle muestra la suma de los tiempos medios 
-            de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
-            y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
-                a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
-                los *input data* redimensionados.''',
-            'Distancia recorrida al mes': '''Este detalle muestra la suma de las distancias medias 
-            de los recorridos en :bike: de los usuarios por mes. La ***inversión*** de flota de bicicletas 
-            y de :door: han sido implementadas en nuestro modelo para adecuar la predicción
-                a la situación actual de 2024. Nuestro LSTM tiene en cuenta a parte de los *hiperparámetros*,
-                los *input data* redimensionados''',
-            'Bicicletas usadas cada mes': 'Descripción de Bicicletas usadas cada mes.'
+            'Minutos de viaje al mes': '''''',
+            'Distancia recorrida al mes': '''''',
+            'Bicicletas usadas cada mes': ''''''
             }
 
         # Crear el selectbox
@@ -83,13 +74,13 @@ def page_home():
                                             actual de 2024. Vemos como la curva se hace estacionaria en los mismos meses pero
                                             cómo el tiempo mensual ha crecido exponencialmente.''')
                         if row1_col1.button('Predicción 3 meses', key=column_id):
-                            st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes3.png", 
+                            st.image(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\minutes3.png", 
                                     caption='Predicción con valores relativos por límite computacional')
                         if row1_col2.button('Predicción 6 meses', key=column_id + '-btn2'):
-                            st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes6.png", 
+                            st.image(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\minutes6.png", 
                                     caption='Predicción con valores relativos por límite computacional')
                         if row1_col3.button('Predicción de 1 año', key=column_id + '-btn3'):
-                            st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/minutes12.png", 
+                            st.image(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\minutes12.png", 
                                     caption='Predicción con valores relativos por límite computacional')
                     
                     elif prediccion == 'Distancia recorrida al mes':
@@ -104,13 +95,13 @@ def page_home():
                                             de 2024. Al igual que en el caso de los minutos, la curva se repie creciendo en datos
                                             pero con la distinción de incrementar las distancias entre estaciones.''')
                         if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
-                            st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance3.png", 
+                            st.image(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\distance3.png", 
                                     caption='Predicción con valores relativos por límite computacional')
                         if row1_col2.button('Predicción 6 meses', key=next(widget_id)):
-                            st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance6.png", 
+                            st.image(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\distance6.png", 
                                     caption='Predicción con valores relativos por límite computacional')
                         if row1_col3.button('Predicción de 1 año', key=next(widget_id)):
-                            st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/distance12.png", 
+                            st.image(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\distance12.png", 
                                     caption='Predicción con valores relativos por límite computacional')
                     
                     elif prediccion == 'Bicicletas usadas cada mes':
@@ -124,20 +115,20 @@ def page_home():
                                             de 2023. Vemos como la predicción hace practicamente un calco de la curva de los datos 
                                             obtenidos en 2022, siendo la predicción menos comprometida de nuestro modelo. ''')
                         if row1_col1.button('Predicción 3 meses', key=next(widget_id)):
-                            st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes3.png", 
+                            st.image(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\bikes3.png", 
                                     caption='Predicción con valores absolutos sin límite computacional')
                         if row1_col2.button('Predicción 6 meses', key=next(widget_id)):
-                            st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes6.png", 
+                            st.image(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\bikes6.png", 
                                     caption='Predicción con valores absolutos sin límite computacional')
                         if row1_col3.button('Predicción de 1 año', key=next(widget_id)):
-                            st.image("/workspaces/BiciMad_4geeks_ML/data/graficos/images/bikes12.png", 
+                            st.image(r"C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\bikes12.png", 
                                     caption='Predicción con valores absolutos sin límite computacional')
                     
     with col2:
         with st.expander('MEJORAS EN LA USABILIDAD DE LA APP BiciMad :world_map::'): 
             # Diccionario con descripciones para cada opción
             implementos = {
-            'Ruta optimizada': '''Mediante esta implemantación, mejoramos la usabilidad de acceso,
+            'Gamificación y usabilidad de la APP': '''Mediante esta implemantación, mejoramos la usabilidad de acceso,
             ruta personalizada e introducimos una gamificación para el usuario.''',
             }
 
@@ -148,27 +139,35 @@ def page_home():
             with st.container(): 
                 # Mostrar el botón:
                 if prediccion == 'Gamificación y usabilidad de la APP':
-                    if st.button('Prueba el uso'):
-                        ors_client = openrouteservice.Client(key='5b3ce3597851110001cf6248b1eae734bbbd486a9454e8190d51e71b')
+                        def change_prediction(new_prediction):
+                            st.session_state.prediccion = new_prediction
+                        if st.button('Explicación', on_click=change_prediction, args=['Decripción del caso']):
+                    # Este código se ejecutará cuando se haga clic en el botón
+                            pass
+                            return st.write('''Hemos trabajado en unas mejoras en la usabilidad de la aplicación
+                                        de BiciMad para el usuario, obtener una puntuación y meorar la preción 
+                                        la ubicación, nacen cómo propuestas a valorar para el gestor.''')
+                        if st.button('Prueba el uso'):
+                            ors_client = openrouteservice.Client(key='5b3ce3597851110001cf6248b1eae734bbbd486a9454e8190d51e71b')
 
-                        def get_user_location():
-                            address = st.text_input("Ingrese su dirección:")
-                            if address:
-                                # Geocodifica la dirección ingresada por el usuario
-                                geocode_result = ors_client.pelias_search(text=address)
-                                if geocode_result['type'] == 'FeatureCollection' and geocode_result['features']:
-                                    location = geocode_result['features'][0]['geometry']['coordinates']
-                                    return location[1], location[0], address
+                            def get_user_location():
+                                address = st.text_input("Ingrese su dirección:")
+                                if address:
+                                    # Geocodifica la dirección ingresada por el usuario
+                                    geocode_result = ors_client.pelias_search(text=address)
+                                    if geocode_result['type'] == 'FeatureCollection' and geocode_result['features']:
+                                        location = geocode_result['features'][0]['geometry']['coordinates']
+                                        return location[1], location[0], address
+                                    else:
+                                        st.error("No se pudo geocodificar la dirección. Por favor, inténtalo de nuevo.")
                                 else:
-                                    st.error("No se pudo geocodificar la dirección. Por favor, inténtalo de nuevo.")
-                            else:
-                                st.warning("Por favor, ingrese una dirección.")
+                                    st.warning("Por favor, ingrese una dirección.")
 
                 # Ejemplo de uso en tu aplicación Streamlit
-                        user_location = get_user_location()
-                        if user_location:
+                            user_location = get_user_location()
+                            if user_location:
                             # Aquí puedes usar user_location para calcular la ruta óptima
-                            st.success(f"La ubicación del usuario es: {user_location}")
+                                st.success(f"La ubicación del usuario es: {user_location}")
 
 # Información Adicional
 def page_info():
@@ -181,7 +180,7 @@ pages = {
     "Proyecto": page_info,
 }
 
-st.sidebar.image('/workspaces/BiciMad_4geeks_ML/data/graficos/images/Logo_Bicimad_-_EMT.png')
+st.sidebar.image(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\Logo_Bicimad_-_EMT.png')
 selection = st.sidebar.radio("Páginas", list(pages.keys()))
 # Llamada a la función correspondiente a la selección
 pages[selection]()
