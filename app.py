@@ -175,10 +175,10 @@ def page_info():
                         st.write(f"Este es tu trayecto:")
                         mapeo = Image.open(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\mapeo.jpg')
                         st.image(mapeo)
-                        st.write(f"Esta es tu ruta en bicicleta ***desde la estación de Calle Alcalá 126 a la estación de 
-                                 Calle Alcalá 498*** y tienes *5* bicicletas en la estación")
+                        st.write(f"""Esta es tu ruta en bicicleta ***desde la estación de Calle Alcalá 126 a la estación de 
+                                 Calle Alcalá 498*** y tienes ***5*** bicicletas en la estación""")
                         st.write(f"""En base a tu distancia recorrida y gracias a las emisiones que has dejado de emitir
-                                al medio ambiente, has conseguido *7,5* puntos, ¡bien hecho! :earth_americas: :recycle:
+                                al medio ambiente, has conseguido ***7,5*** puntos, ¡bien hecho! :earth_americas: :recycle:
                                 :partying_face: """)
 
 
