@@ -23,6 +23,8 @@ from openrouteservice import Client
 from openrouteservice import directions
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
+import folium
+from folium.plugins import PolyLine
 
 #st.button('Prueba el uso')
 
@@ -59,27 +61,140 @@ def get_user_location():
 def get_nearest_station(user_location, station_data):
     return min(station_data, key=lambda station: geodesic(user_location[:2], (station['latitude'], station['longitude'])).kilometers)
 
-# Obtenemos la ubicación del usuario
-user_location = get_user_location()
+# def calcular_ruta_optima(partida, llegada):
+#     # Implementa aquí el algoritmo de búsqueda de caminos
+#     # y devuelve la ruta óptima y la distancia total
+#     pass
 
-# Encontramos la estación más cercana
-nearest_station = get_nearest_station(user_location, station_data)
+# def calcular_puntuacion(distancia, ahorro_co2):
+#     # Calcula la puntuación basada en la distancia y el ahorro de CO2
+#     distancia = calcular_ruta_optima(distancia_km)
+#     ahorro_co2 = distancia
+#     puntuacion = distancia + ahorro_co2
+#     return puntuacion
 
-def calcular_ruta_optima(partida, llegada):
-    # Implementa aquí el algoritmo de búsqueda de caminos
-    # y devuelve la ruta óptima y la distancia total
-    pass
 
-def calcular_puntuacion(distancia, ahorro_co2):
-    # Calcula la puntuación basada en la distancia y el ahorro de CO2
-    distancia = calcular_ruta_optima(distancia_km)
-    ahorro_co2 = distancia
-    puntuacion = distancia + ahorro_co2
-    return puntuacion
+def calculate_carbon_emission_and_calories(distance, transportation_mode, fuel_type='gasoline'):
+    # Factores de emisión y consumo predefinidos para diferentes modos de transporte y tipos de combustible
+    emission_factors = {'bicycle': 0.0, 'bus': 0.1, 'car': {'gasoline': 2.35, 'diesel': 2.64}}
+    consumption_factors = {'gasoline': 5.4, 'diesel': 4.8}  # L/100km
+    
+    emission_factor_car = emission_factors.get('car', {}).get(fuel_type, 0.0)
+    emission_factor_bicycle = emission_factors.get('bicycle', 0.0)
+    
+    # Calcular emisiones de CO2 para automóvil y bicicleta
+    total_emission_car = emission_factor_car / 100 * consumption_factors.get(fuel_type, 0.0) * distance
+    total_emission_bicycle = emission_factor_bicycle * distance
+    
+    # Calcular el ahorro de emisiones al usar la bicicleta en lugar del automóvil
+    emission_savings = total_emission_car - total_emission_bicycle
+    
+    # Calcular calorías gastadas (supongamos una velocidad promedio de 20 km/h)
+    speed_kmh = 20
+    if transportation_mode == 'bicycle':
+        if speed_kmh <= 15:
+            total_calories = 300 * distance
+        elif speed_kmh <= 18:
+            total_calories = 420 * distance
+        elif speed_kmh <= 22:
+            total_calories = 600 * distance
+        elif speed_kmh <= 28:
+            total_calories = 850 * distance
+        else:
+            total_calories = 1000 * distance
+    else:
+        total_calories = 0.0
+    
+    # Convertir calorías a kilocalorías (1 Cal = 1 kcal)
+    total_calories_kcal = total_calories / 1000
+    
+    return emission_savings, total_calories_kcal
 
-def mostrar_mapa_ruta(ruta):
-    # Muestra la ruta en un mapa utilizando folium
-    pass
+ors_client = Client(key='5b3ce3597851110001cf6248b1eae734bbbd486a9454e8190d51e71b')
+
+partida = get_user_location() 
+llegada = get_user_location()
+
+start_lat = get_nearest_station(partida, station_data['latitude'])
+start_lon = get_nearest_station(partida, station_data['longitude'])
+end_lat = get_nearest_station(llegada, station_data['latitude'])
+end_lon = get_nearest_station(llegada, station_data['longitude'])
+
+def get_route_score_and_map(start_lat, start_lon, end_lat, end_lon):
+                    # Get the route using ORS
+    route = ors_client.directions([(start_lon, start_lat), (end_lon, end_lat)], profile='cycling-regular')
+                    
+                    # Calculate the distance of the route
+    distance = route['routes'][0]['summary']['distance'] /  1000  # Convert to kilometers
+                    
+                    # Calculate carbon emission and calories burned
+    emission_savings, calories_kcal = calculate_carbon_emission_and_calories(distance, 'bicycle')
+    calories_kcal = emission_savings # establecemos un rango medio, este dato se debería extraer y cruzar con los datos del perfil del usuario de BiciMad.
+
+                    # Calculate score based on distance and emission savings
+    score = int(distance) + int(emission_savings)
+
+    # Suponiendo que 'route' es el objeto obtenido de la API de direcciones
+    coordinates = route['routes'][0]['geometry']['coordinates']
+
+    # Crear un mapa centrado en el punto de inicio
+    mapa = folium.Map(location=[start_lat, start_lon], zoom_start=13)
+
+    # Trazar la ruta en el mapa
+    PolyLine(locations=coordinates, color="blue", weight=2.5).add_to(mapa)
+                       
+    return route, score, mapa
+
+
+# Disponibilidad de bicicletas en la estación de salida #
+# URL base de la API
+base_url = "https://openapi.emtmadrid.es/v1"
+email = "ruben.c_ac@icloud.com"
+password = "Prada2024!"
+
+token = '27cd5a5c-dc4a-4625-89ee-2b6d3b81880c' #??
+
+def iniciar_sesion(email, password):
+    url = f"{base_url}/mobilitylabs/user/login/"
+    headers = {
+        "email": email,
+        "password": password
+    }
+
+    response = requests.get(url, headers=headers)
+
+    # Verificar si la solicitud fue exitosa (código de estado 200)
+    if response.status_code == 200:
+        # Capturar y devolver el token de acceso
+        # token = response.json().get("data", [{}])[0].get("accessToken") # 27cd5a5c-dc4a-4625-89ee-2b6d3b81880c
+        return token
+    else:
+        # Imprimir el código de estado y la respuesta en caso de error
+        print("Error en la solicitud de inicio de sesión:")
+        print("Código de estado:", response.status_code)
+        print("Respuesta:", response.json())
+        return None
+
+access_token = token #???
+
+def obtener_estado_estacion_bicimad(access_token, station_data):
+    url = f"{base_url}/transport/bicimad/stations/{station_data}/"
+    headers = {"accessToken": access_token}
+
+    response = requests.get(url, headers=headers)
+
+    # Verificar si la solicitud fue exitosa (código de estado 200)
+    if response.status_code == 200:
+        # Capturar y devolver los detalles de la estación
+        estado_estacion = response.json()
+        return estado_estacion
+    else:
+        # Imprimir el código de estado y la respuesta en caso de error
+        print("Error en la solicitud de estado de estación BiciMAD:")
+        print("Código de estado:", response.status_code)
+        print("Respuesta:", response.json())
+        return None
+
 
 # Interfaz de usuario en Streamlit
 st.title("Optimizador de Rutas en BiciMad")
@@ -90,12 +205,15 @@ llegada = st.text_input("¿A dónde voy?")
 
 # Botón para calcular la ruta
 if st.button("Calcular Ruta"):
-    ruta, distancia = calcular_ruta_optima(partida, llegada)
-    puntuacion = calcular_puntuacion(distancia, distancia) # Suponiendo que ahorras  1kg de CO2 por km
-    mostrar_mapa_ruta(ruta)
-    st.write(f"La ruta en bicicleta es: {ruta}")
-    st.write(f"Distancia recorrida: {distancia} km")
-    st.write(f"Puntuación: {puntuacion} puntos")
+
+    # distancia = ???
+    route, score, mapa = get_route_score_and_map(start_lat, start_lon, end_lat, end_lon)
+    disponibles = obtener_estado_estacion_bicimad(token, station_data)
+
+    st.write(f"Este es tu trayecto:{mapa}")
+    st.write(f"La ruta en bicicleta es: {route} y tienes {disponibles} bicicletas en la estación")
+    # st.write(f"Distancia recorrida: {distancia} km")
+    st.write(f"Puntuación: {score} puntos")
 
 
 
