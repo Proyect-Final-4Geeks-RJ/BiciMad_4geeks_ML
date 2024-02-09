@@ -47,7 +47,7 @@ set_background(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4ge
 column_id = "mi_columna_con_botones"
 
 # Página Principal
-def page_home():
+def page_info():
 # Dividir la pantalla en dos columnas
     col1, col2 = st.columns([2,  2])
     with col1:
@@ -301,7 +301,7 @@ def page_home():
                                 #st.map(route['routes'][0]['geometry']['coordinates'])
                                 st.write(f'''Tu puntuación es: ¡¡¡{score}!!!:clap::clap::clap::clap::clap:, 
                                         esto es gracias a las calorías gastadas por la velocidad en que 
-                                        lo has hecho, y por la distancia recorriday también por tu 
+                                        lo has hecho, y por la distancia recorrida y también por tu 
                                         contribución al ahorro de emisiones en nuestra ciudad
                                         por usar la bicicleta :smiley: ''')
 
@@ -312,7 +312,7 @@ def page_home():
                         main()
 
 # Información Adicional
-def page_info():
+def page_home():
     col1, col2 = st.columns([2,  2])
     with col1:
         with st.expander('Acerca del proyecto sobre BiciMAD :bike:'):
@@ -366,8 +366,8 @@ def page_info():
 
     # Selección de la página a mostrar
 pages = {
-        "Despliegue": page_home,
-        "Proyecto": page_info,
+        "Proyecto": page_home,
+        "Despliegue": page_info,
     }
 logo = Image.open(r'C:\Users\LuyinPC\Desktop\Bici-Mad\BiciMad_4geeks_ML\BiciMad_4geeks_ML\data\graficos\images\Logo_Bicimad_-_EMT.png')
 st.sidebar.image(logo)
